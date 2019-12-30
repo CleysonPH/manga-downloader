@@ -24,15 +24,21 @@ class Chapter(object):
         os.makedirs(path, exist_ok=True)
 
     def _download_pages(self, download_path):
+        print('Downloading chapter {} of {}'.format(
+            self.chapter_number,
+            self.manga_name)
+        )
+
         soup = BeautifulSoup(requests.get(
             self.chapter_link).content, 'html.parser')
         pages = soup.find_all('img', class_='img-manga')
 
-        for page in pages:
+        for page_number, page in enumerate(pages, start=1):
             page_link = page.get('src')
-            page_number = page_link.split('/')[-1]
+            file_extension = page_link.split('.')[-1]
+            file_name = '{}.{}'.format(page_number, file_extension)
             response = requests.get(page_link)
-            file_path = os.path.join(download_path, str(page_number))
+            file_path = os.path.join(download_path, file_name)
 
             with open(file_path, 'wb') as file:
                 file.write(response.content)
