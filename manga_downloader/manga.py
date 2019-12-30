@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from manga_downloader.chapter import Chapter
-from manga_downloader.exceptions import MangaNotFound
+from manga_downloader.exceptions import MangaNotFound, ChapterNotFound
 
 
 class Manga(object):
@@ -20,17 +20,16 @@ class Manga(object):
         else:
             raise MangaNotFound(
                 'Manga {} not Found in the Union Mangas website'.format(
-                    self.name,
+                    self.name
                 )
             )
 
         self.author = ''
         self.artist = ''
         self.status = ''
-        self.chapters = []
+        self.chapters = self._get_chapters()
 
         self._get_perfil_data()
-        self._get_chapters()
 
     def _get_perfil_data(self):
         perfil_data = self.soup.find_all(
@@ -41,18 +40,31 @@ class Manga(object):
         self.status = perfil_data[4].text.split(':')[-1].strip()
 
     def _get_chapters(self):
+        chapter_list = []
         caps = self.soup.find_all('div', class_='row lancamento-linha')
         for cap in caps:
             chapter_number = cap.find('a').get('href')
-            self.chapters.append(
+            chapter_list.append(
                 Chapter(self.name, chapter_number)
             )
+
+        return chapter_list
 
     def download_all_chapters(self):
         for chapter in self.chapters:
             chapter.download_chapter()
 
     def download_chapter(self, chapter_number):
+        found = False
         for chapter in self.chapters:
             if chapter.chapter_number == chapter_number:
+                found = True
                 chapter.download_chapter()
+
+        if not found:
+            raise ChapterNotFound(
+                'The chapter {} of {} is not found in the Union Mangas website'.format(
+                    chapter_number,
+                    self.name
+                )
+            )
