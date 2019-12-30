@@ -2,6 +2,7 @@ import os
 
 import requests
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 
 class Chapter(object):
@@ -33,8 +34,9 @@ class Chapter(object):
             self.chapter_link).content, 'html.parser')
         pages = soup.find_all('img', class_='img-manga')
 
-        for page_number, page in enumerate(pages, start=1):
-            page_link = page.get('src')
+        # for page_number, page in enumerate(pages, start=1):
+        for page_number in tqdm(range(len(pages))):
+            page_link = pages[page_number].get('src')
             file_extension = page_link.split('.')[-1]
             file_name = '{}.{}'.format(page_number, file_extension)
             response = requests.get(page_link)

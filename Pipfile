@@ -10,6 +10,7 @@ autopep8 = "*"
 beautifulsoup4 = "*"
 requests = "*"
 click = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.5"
