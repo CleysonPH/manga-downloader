@@ -9,6 +9,7 @@ autopep8 = "*"
 [packages]
 beautifulsoup4 = "*"
 requests = "*"
+click = "*"
 
 [requires]
 python_version = "3.5"
