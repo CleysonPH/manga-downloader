@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from manga_downloader.chapter import Chapter
+from manga_downloader.exceptions import MangaNotFound
 
 
 class Manga(object):
@@ -12,8 +13,17 @@ class Manga(object):
         self.name = name
         self.link = 'https://unionleitor.top/manga/{}'.format(
             self.name.replace(' ', '-').lower())
-        self.soup = BeautifulSoup(requests.get(
-            self.link).content, 'html.parser')
+
+        response = requests.get(self.link)
+        if not response.history:
+            self.soup = BeautifulSoup(response.content, 'html.parser')
+        else:
+            raise MangaNotFound(
+                'Manga {} not Found in the Union Mangas website'.format(
+                    self.name,
+                )
+            )
+
         self.author = ''
         self.artist = ''
         self.status = ''
