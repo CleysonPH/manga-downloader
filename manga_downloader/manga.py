@@ -29,6 +29,7 @@ class Manga(object):
                 )
             )
 
+        self.genres = ''
         self.author = ''
         self.artist = ''
         self.status = ''
@@ -40,6 +41,7 @@ class Manga(object):
         perfil_data = self.soup.find_all(
             'h4', class_='media-heading manga-perfil')
 
+        self.genres = perfil_data[1].text.split(':')[-1].strip()
         self.author = perfil_data[2].text.split(':')[-1].strip()
         self.artist = perfil_data[3].text.split(':')[-1].strip()
         self.status = perfil_data[4].text.split(':')[-1].strip()
@@ -56,7 +58,7 @@ class Manga(object):
         return chapter_list
 
     def download_all_chapters(self):
-        for chapter in self.chapters:
+        for chapter in self.chapters[::-1]:
             chapter.download_chapter()
 
     def download_chapter(self, chapter_number):
