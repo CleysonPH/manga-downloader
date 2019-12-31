@@ -61,6 +61,9 @@ class Manga(object):
         for chapter in self.chapters[::-1]:
             chapter.download_chapter()
 
+    def download_last_chapter(self):
+        self.download_chapter(self.chapters[0].chapter_number)
+
     def download_chapter(self, chapter_number):
         found = False
         for chapter in self.chapters:
