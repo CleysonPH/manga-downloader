@@ -1,8 +1,14 @@
 import os
 
 import requests
+import requests_cache
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+
+from config import REQUESTS_SQLITE_CACHE
+
+
+requests_cache.install_cache(REQUESTS_SQLITE_CACHE)
 
 
 class Chapter(object):

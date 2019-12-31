@@ -11,6 +11,7 @@ beautifulsoup4 = "*"
 requests = "*"
 click = "*"
 tqdm = "*"
+requests-cache = "*"
 
 [requires]
 python_version = "3.5"
