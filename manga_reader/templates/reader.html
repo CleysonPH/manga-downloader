@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{chapter.manga_name}} - {{chapter.chapter_number}}</title>
+
+    <style>
+        img {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        {% for page in chapter.pages %}
+        <img src="{{page}}" alt=""><br>
+        {% endfor %}
+    </center>
+</body>
+
+</html>

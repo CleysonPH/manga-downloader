@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 from config import REQUESTS_SQLITE_CACHE
+from manga_reader.reader import Reader
 
 
 requests_cache.install_cache(REQUESTS_SQLITE_CACHE)
@@ -16,21 +17,24 @@ class Chapter(object):
         self.manga_name = manga_name
         self.chapter_link = chapter_link
         self.chapter_number = float(self.chapter_link.split('/')[-1])
-
-    def download_chapter(self):
-        download_path = os.path.join(
+        self.download_path = os.path.join(
             'mangas',
             self.manga_name.replace(' ', '_').lower(),
             str(self.chapter_number),
         )
+        self.pages = []
 
-        self._makedirs(download_path)
-        self._download_pages(download_path)
+    def download_chapter(self):
+        self._makedirs()
+        self._download_pages()
 
-    def _makedirs(self, path):
-        os.makedirs(path, exist_ok=True)
+        r = Reader(self)
+        r.make_reader_file()
 
-    def _download_pages(self, download_path):
+    def _makedirs(self):
+        os.makedirs(self.download_path, exist_ok=True)
+
+    def _download_pages(self):
         print('Downloading chapter {} of {}'.format(
             self.chapter_number,
             self.manga_name)
@@ -45,8 +49,11 @@ class Chapter(object):
             page_link = pages[page_number].get('src')
             file_extension = page_link.split('.')[-1]
             file_name = '{}.{}'.format(page_number, file_extension)
-            response = requests.get(page_link)
-            file_path = os.path.join(download_path, file_name)
+            self.pages.append(file_name)
+            file_path = os.path.join(self.download_path, file_name)
 
-            with open(file_path, 'wb') as file:
-                file.write(response.content)
+            if not os.path.exists(file_path):
+                response = requests.get(page_link)
+
+                with open(file_path, 'wb') as file:
+                    file.write(response.content)

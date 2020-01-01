@@ -12,6 +12,7 @@ requests = "*"
 click = "*"
 tqdm = "*"
 requests-cache = "*"
+jinja2 = "*"
 
 [requires]
 python_version = "3.5"
