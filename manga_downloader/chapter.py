@@ -9,9 +9,6 @@ from config import REQUESTS_SQLITE_CACHE
 from manga_reader.reader import Reader
 
 
-requests_cache.install_cache(REQUESTS_SQLITE_CACHE)
-
-
 class Chapter(object):
     def __init__(self, manga_name, chapter_link):
         self.manga_name = manga_name

@@ -1,5 +1,4 @@
 import os
-import webbrowser
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -19,4 +18,7 @@ class Reader(object):
         with open(output_file, 'w') as file:
             file.write(html)
 
-        webbrowser.open(os.path.realpath(output_file))
+        print(
+            'Open in',
+            os.path.realpath(output_file)
+        )

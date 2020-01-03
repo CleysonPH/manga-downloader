@@ -9,9 +9,6 @@ from manga_downloader.chapter import Chapter
 from manga_downloader.exceptions import MangaNotFound, ChapterNotFound
 
 
-requests_cache.install_cache(REQUESTS_SQLITE_CACHE)
-
-
 class Manga(object):
 
     def __init__(self, name):
