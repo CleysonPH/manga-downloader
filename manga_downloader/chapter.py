@@ -12,11 +12,11 @@ class Chapter(object):
     def __init__(self, manga_name, chapter_link):
         self.manga_name = manga_name
         self.chapter_link = chapter_link
-        self.chapter_number = float(self.chapter_link.split('/')[-1])
+        self.chapter_number = self.chapter_link.split('/')[-1]
         self.download_path = os.path.join(
             'mangas',
             self.manga_name.replace(' ', '_').lower(),
-            str(self.chapter_number),
+            self.chapter_number,
         )
         self.pages = []
 

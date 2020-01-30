@@ -6,7 +6,7 @@ from manga_downloader.exceptions import MangaNotFound, ChapterNotFound
 
 @click.command()
 @click.option('--manga', required=True, prompt='Manga', help='Name of the manga you want to download')
-@click.option('--chapter', required=False, default=1, help='Number of the chapter you want to download')
+@click.option('--chapter', required=False, default=1, type=str, help='Number of the chapter you want to download')
 @click.option('--all', is_flag=True, help='Download all the chapters')
 @click.option('--last', is_flag=True, help='Download the last chapter')
 def manga_downloader(manga, chapter, all, last):
@@ -23,11 +23,9 @@ def manga_downloader(manga, chapter, all, last):
         elif last:
             m.download_last_chapter()
         else:
-            m.download_chapter(float(chapter))
+            m.download_chapter(chapter)
     except MangaNotFound:
         click.echo('Manga {} not found'.format(manga))
-    except ValueError:
-        click.echo('Chapter must be a number')
     except ChapterNotFound:
         click.echo('Chapter {} of {} is not found.'.format(chapter, manga))
 
