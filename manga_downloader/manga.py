@@ -12,7 +12,7 @@ class Manga(object):
 
     def __init__(self, name):
         self.name = name
-        self.link = 'https://unionleitor.top/manga/{}'.format(
+        self.link = 'https://unionmangas.top/manga/{}'.format(
             self.name.replace(' ', '-').lower())
 
         response = requests.get(self.link)
