@@ -1,6 +1,8 @@
 # Manga Downloader
 Projeto usado para estudo que é capaz de baixar mangás do site Union Mangas através de um CLI .
 
+> **OBS** O site Union Mangas aplicou uma proteção contra DDoS da CloudFire e o projeto não está mais funcionando :cry:
+
 ## Bibliotecas utilizadas
 
 - beautifulsoup4
